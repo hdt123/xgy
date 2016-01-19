@@ -1,33 +1,24 @@
 package com.xgy.entitty;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-
 import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * 
- * @author Administrator
- *
+ * Parise entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "parise", catalog = "xgy")
-public class Parise implements Serializable {
+public class Parise implements java.io.Serializable {
 
+	// Fields
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private Integer praiseId;
 	private Project project;
 	private User user;

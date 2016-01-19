@@ -1,57 +1,52 @@
 package com.xgy.entitty;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-
 import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * 用户表
- * @author Administrator
- *
+ * User entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "user")
-public class User implements Serializable {
+@Table(name = "user", catalog = "xgy")
+public class User implements java.io.Serializable {
 
-	
-	private static final long serialVersionUID = 1L;
+	// Fields
+
 	private Integer userId;
-	private String nickName;   //昵称
-	private String openId;    //openId
-	private Short gender;     //性别	
-	private String country;    //国家
-	private String headImageUrl;     //头像地址
-	private Integer goodNum;         //点赞数量
-	private Integer shareNum;         //分享次数
-	private Set<Project> projects = new HashSet<Project>(0);        //点赞
+	private String nickName;
+	private String openId;
+	private Short gender;
+	private String country;
+	private String headImageUrl;
+	private Integer goodNum;
+	private Integer shareNum;
+	private Set<Parise> parises = new HashSet<Parise>(0);
 
+	// Constructors
 
+	/** default constructor */
 	public User() {
 	}
 
+	/** minimal constructor */
 	public User(String nickName, String openId) {
 		this.nickName = nickName;
 		this.openId = openId;
 	}
 
+	/** full constructor */
 	public User(String nickName, String openId, Short gender, String country,
 			String headImageUrl, Integer goodNum, Integer shareNum,
-			Set<Project> projects) {
+			Set<Parise> parises) {
 		this.nickName = nickName;
 		this.openId = openId;
 		this.gender = gender;
@@ -59,9 +54,10 @@ public class User implements Serializable {
 		this.headImageUrl = headImageUrl;
 		this.goodNum = goodNum;
 		this.shareNum = shareNum;
-		this.projects = projects;
+		this.parises = parises;
 	}
 
+	// Property accessors
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "userId", unique = true, nullable = false)
@@ -136,21 +132,13 @@ public class User implements Serializable {
 		this.shareNum = shareNum;
 	}
 
-   
-   /* @JoinTable(name="user_role",
-    			joinColumns=@JoinColumn
-           inverseJoinColumns=@JoinColumn(name="role_id")
-    )*/
-	@ManyToMany(cascade=CascadeType.ALL)
-	@JoinTable(name="parise") 
-	public Set<Project> getProjects() {
-		return projects;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+	public Set<Parise> getParises() {
+		return this.parises;
 	}
 
-	public void setProjects(Set<Project> projects) {
-		this.projects = projects;
+	public void setParises(Set<Parise> parises) {
+		this.parises = parises;
 	}
-
-	
 
 }

@@ -1,58 +1,55 @@
 package com.xgy.entitty;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.ManyToMany;
-
 import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
- * 项目entity
- * @author Administrator
- *
+ * Project entity. @author MyEclipse Persistence Tools
  */
 @Entity
-public class Project implements Serializable {
+@Table(name = "project", catalog = "xgy")
+public class Project implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	// Fields
 
 	private Integer projectId;
 	private String projectName;
 	private String projectDesc;
-	private Integer pariseNum;                //该项目点赞次数
-	private Integer projectNum;               //项目编号
-	private Set<User>  users = new HashSet<User>(0);
+	private Integer pariseNum;
+	private Integer projectNum;
+	private Set<Parise> parises = new HashSet<Parise>(0);
 
+	// Constructors
 
+	/** default constructor */
 	public Project() {
 	}
 
+	/** minimal constructor */
 	public Project(Integer projectNum) {
 		this.projectNum = projectNum;
 	}
 
+	/** full constructor */
 	public Project(String projectName, String projectDesc, Integer pariseNum,
-			Integer projectNum, Set<User> users) {
+			Integer projectNum, Set<Parise> parises) {
 		this.projectName = projectName;
 		this.projectDesc = projectDesc;
 		this.pariseNum = pariseNum;
 		this.projectNum = projectNum;
-		this.users = users;
+		this.parises = parises;
 	}
 
+	// Property accessors
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "projectId", unique = true, nullable = false)
@@ -100,15 +97,13 @@ public class Project implements Serializable {
 		this.projectNum = projectNum;
 	}
 
-	@ManyToMany(mappedBy="projects",cascade=CascadeType.ALL)
-	public Set<User> getUsers() {
-		return users;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "project")
+	public Set<Parise> getParises() {
+		return this.parises;
 	}
 
-	public void setUsers(Set<User> users) {
-		this.users = users;
+	public void setParises(Set<Parise> parises) {
+		this.parises = parises;
 	}
-
-	
 
 }
